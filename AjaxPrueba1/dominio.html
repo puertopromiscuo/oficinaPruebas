@@ -6,7 +6,8 @@
   <script src="librerias/jquery/jquery-1.8.2.min.js"></script>
   <script type="text/javascript">
   $(function() {
-  	$('#send').click(function() {
+    var register = $('#regLog');
+  	/*$('#send').click(function() {
   		$.ajax({
   			type: 'GET',
   			url: 'php/maptoro/' + $('#id').val(),//localhost/git/oficinaPruebas/AjaxPrueba1/php/maptoro/3
@@ -16,19 +17,51 @@
   		}).fail(function() {
   			console.log("error", arguments);
   		});
-  	});
+  	});*/
+    $('#reg-send').click(function() {
+      $.ajax({
+        type: 'POST',
+        url: 'php/maptoro/insertUser',
+        dataType: 'text',
+        data: { 
+                name: register.find('input[name = name]').val(), 
+                email: register.find('input[name = email]').val(), 
+                password: register.find('input[name = password]').val() }
+      }).done(function(data) {
+        $('#result').html(data);
+      }).fail(function() {
+        console.log("error", arguments);
+      });
+    });
+    $('#log-send').click(function() {
+      $.ajax({
+        type: 'POST',
+        url: 'php/maptoro/logUser',
+        dataType: 'text',
+        data: { 
+                email: register.find('input[name = email]').val(),
+                password: register.find('input[name = password]').val() }
+      }).done(function(data) {
+        $('#result').html(data);
+      }).fail(function() {
+        console.log("error", arguments);
+      });
+    });
   });
   </script>
 
 </head>
 <body>
-  <div>
-  	<input id="id"/>
+  <div id="regLog">
+  	<input name="name" placeholder="Nombre"/>
   	<br>
-  	<input id="name"/>
+  	<input name="email" placeholder="Email"/>
   	<br>
-  	<button id="send">Send</button>
-  	Result: <div id="result"></div>
+    <input name="password" placeholder="Password"/>
+    <br>
+  	<button id="reg-send">Reg</button>
+    <button id="log-send">Log</button>
+    Resultado: <div id="result"></div>
   </div>
 </body>
 </html>

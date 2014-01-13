@@ -24,16 +24,23 @@ class DeleteUser {
 }
 
 class InsertUser {
-	function get($name,$password){
-		insertUser($name,$password);
+	function post(){
+    insertUser($_POST['name'],$_POST['email'],$_POST['password']);
 	}
+}
+
+class LogUser{
+  function post(){
+    echo logUser($_POST['email'],$_POST['password']);
+  }
 }
 
 Toro::serve(array(
 	"/" => "User",   
     "/:number" => "GetUserName",
-    "/name/:alpha/pass/:number" => "InsertUser",
-    "/deleteUser/:number" => "DeleteUser"
+    "/insertUser" => "InsertUser",
+    "/logUser" => "LogUser"
+    /*"/deleteUser/:number" => "DeleteUser"*/
     
 
 ));
